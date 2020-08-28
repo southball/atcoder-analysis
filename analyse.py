@@ -166,6 +166,11 @@ class SqliteStddev:
         return math.sqrt(self.S / (self.k-2))
 
 database.create_aggregate("STDDEV", 1, SqliteStddev)
+def exp(x):
+    return math.exp(min(x, 30))
+database.create_function("EXP", 1, exp)
+
+cursor.executescript(read_file("sql/compute.sql"))
 for line in cursor.execute(read_file("sql/analyse.sql")):
     print(line)
 
